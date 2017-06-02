@@ -3,16 +3,16 @@ package ga.dryco.redditjerk.implementation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-import com.sun.deploy.util.StringUtils;
-import ga.dryco.redditjerk.api.*;
+import ga.dryco.redditjerk.api.Reddit;
 import ga.dryco.redditjerk.api.enums.*;
-import ga.dryco.redditjerk.wrappers.*;
 import ga.dryco.redditjerk.datamodels.*;
 import ga.dryco.redditjerk.datamodels.deserializers.*;
 import ga.dryco.redditjerk.exceptions.RedditJerkException;
 import ga.dryco.redditjerk.rest.OAuthClient;
+import ga.dryco.redditjerk.wrappers.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -135,7 +135,11 @@ public final class RedditApi implements Reddit {
      */
     public MoreChildren getMoreChildren(List<String> idList, String linkId, Sorting sort){
 
-        String idListComma = StringUtils.join(idList, ",");
+        String idListComma = "";
+        for (int i = idList.size() - 1; i > -1; --i) {
+            idList.get(i);
+            if (i != 0) idListComma += ",";
+        }
         String requesturl = String.format(ApiURL + Endpoints.MORE_CHILDREN, idListComma, linkId, sort);
 
         return this.getDataObject(makeHttpRequest(requesturl), MoreChildren.class);
